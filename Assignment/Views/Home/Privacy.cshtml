@@ -1,0 +1,46 @@
+﻿@using Assignment.Constraints
+
+
+
+    <div class="container">
+        <div class="d-flex">
+
+
+        <input placeholder="Enter Foreign rate" class="m-4" type="number" id="foreignunit" oninput="onCurrencyChange()" />
+
+        <select id="currencyDropdown" class="form-select w-25 m-4" onchange="onCurrencyChange()">
+            <option value="">Select Currency</option>
+            @foreach (var item in StaticForexRates.rateVMs)
+            {
+                <option value="@item.sell">@item.currency.iso3 (@item.currency.name)</option>
+            }
+        </select>
+        </div>
+        <div class="d-flex">
+          <h1>Rs.</h1><h1 id="npr"></h1>
+        </div>
+</div>
+<script>
+
+    function onCurrencyChange() {
+        const currencyDropdown = document.getElementById("currencyDropdown");
+        const foreignUnitInput = document.getElementById("foreignunit");
+        if (currencyDropdown.value !== "" && foreignUnitInput.value !== "") {
+            convertMoney();
+        }
+        else { 
+            document.getElementById("npr").innerHTML = "";
+        }
+       
+    }
+    function convertMoney() {
+        const currencyDropdown = document.getElementById("currencyDropdown");
+        const foreignUnitInput = document.getElementById("foreignunit");
+        const selectedValue = currencyDropdown.value;
+        const foreignUnit = foreignUnitInput.value;
+        document.getElementById("npr").innerHTML = selectedValue * foreignUnit;
+    }
+    
+    
+  
+</script>

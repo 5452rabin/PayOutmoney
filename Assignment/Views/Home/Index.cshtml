@@ -1,0 +1,137 @@
+﻿@model Assignment.ViewModel.TrasactionVM
+@using Assignment.Constraints
+@using Microsoft.AspNetCore.Identity
+@using Assignment.Areas.Identity.Data
+
+@inject SignInManager<AssignmentUser> SignInManager
+@inject UserManager<AssignmentUser> UserManager
+<style>
+   
+</style>
+<div class="text-center">
+   
+    <div class="container">
+         @if (SignInManager.IsSignedIn(User))
+        {
+       
+            <form method="post" asp-action="Index" asp-controller="Home">
+                <input asp-for="@Model.UserId" value="@UserManager.GetUserId(User)" hidden />
+            <div class="border p-3 mt-4">
+                <div class="pb-2">
+                    <h2 class="text-primary">Make Trasaction</h2>
+                    <hr />
+                    <div class="container d-flex">
+                        <div class="container">
+
+
+                                <h3 class="mb-3 d-flex flex-wrap">Sender Details</h3>
+                    <div class="mb-3 d-flex flex-wrap">
+
+                       <input asp-for="@Model.SenderFirstName" class="form-control  w-50 mx-2" placeholder="Sender FirstName" />
+                        <span asp-validation-for="@Model.SenderFirstName" class="text-danger"></span>
+                    </div>
+                            <div class="mb-3 d-flex flex-wrap">
+                        <input asp-for="@Model.SenderMiddleName" class="form-control w-50 mx-2" placeholder="Sender Middle Name" />
+                        <span asp-validation-for="@Model.SenderLastName" class="text-danger"></span>
+                    </div>
+                            <div class="mb-3 d-flex flex-wrap">
+                                <input asp-for="@Model.SenderLastName" class="form-control w-50 mx-2" placeholder="Sender Last Name" />
+                                <span asp-validation-for="@Model.SenderLastName" class="text-danger"></span>
+                            </div>
+                    <div class="mb-3 d-flex">
+                        <input asp-for="@Model.SenderAddress" class="form-control w-50 mx-2" placeholder="Sender Address" />
+                        <span asp-validation-for="@Model.SenderAddress" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 d-flex">
+                        <input asp-for="@Model.SenderCountry" class="form-control w-50 mx-2" placeholder="Sender Country" />
+                        <span asp-validation-for="@Model.SenderCountry" class="text-danger"></span>
+                    </div>
+                        </div>
+                        <div class="container">
+                                <h2 class="mb-3 d-flex flex-wrap">Account Details</h2>
+                                <div class="mb-3 d-flex flex-wrap">
+
+                                    <input asp-for="@Model.BankName" class="form-control  w-50 mx-2" placeholder="Bank Name" />
+                                    <span asp-validation-for="@Model.BankName" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3 d-flex flex-wrap">
+                                    <input asp-for="@Model.AccountNumber" class="form-control w-50 mx-2" placeholder="Bank Account Number" />
+                                    <span asp-validation-for="@Model.AccountNumber" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <i class="text-danger d-block" style="width: fit-content;">Transfer Amount in (MYR)</i>
+                                    <input asp-for="@Model.TransferAmountMYR" class="form-control w-50 mx-2" id="myr" placeholder="Transfer Amount (MYR)" onchange="convertmoney()" />
+                                    <span asp-validation-for="@Model.TransferAmountMYR" class="text-danger"></span>
+                                </div>
+                                 <div class="mb-3">
+                                    <i class="text-danger d-block" style="width: fit-content;">Exchange rate</i>
+                                    <input asp-for="@Model.ExchangeRate" class="form-control w-50 mx-2" placeholder="Transfer Amount (MYR)" readonly  />
+                                    <span asp-validation-for="@Model.ExchangeRate" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <i class="text-danger d-block" style="width: fit-content;">Payout Amount in (NPR)</i>
+                                    <input asp-for="@Model.PayoutAmountNPR" class="form-control w-50 mx-2" id="npr" placeholder="Transfer Amount (MYR)" />
+                                    <span asp-validation-for="@Model.PayoutAmountNPR" class="text-danger"></span>
+                                </div>
+                               
+                            </div>
+                        <div class="container">
+
+
+                                <h3 class="mb-3 d-flex flex-wrap">Receiver Details</h3>
+                                <div class="mb-3 d-flex flex-wrap">
+
+                                    <input asp-for="@Model.ReceiverFirstName" class="form-control  w-50 mx-2" placeholder="Receiver First Name" />
+                                    <span asp-validation-for="@Model.ReceiverFirstName" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3 d-flex flex-wrap">
+                                    <input asp-for="@Model.ReceiverMiddleName" class="form-control w-50 mx-2" placeholder="Receiver Middle Name" />
+                                    <span asp-validation-for="@Model.ReceiverMiddleName" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3 d-flex flex-wrap">
+                                    <input asp-for="@Model.ReceiverLastName" class="form-control w-50 mx-2" placeholder="Receiver Last Name" />
+                                    <span asp-validation-for="@Model.ReceiverLastName" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3 d-flex">
+                                    <input asp-for="@Model.ReceiverAddress" class="form-control w-50 mx-2" placeholder="Receiver Address" />
+                                    <span asp-validation-for="@Model.ReceiverAddress" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3 d-flex">
+                                    <input asp-for="@Model.ReceiverCountry" class="form-control w-50 mx-2" placeholder="Receiver Country" />
+                                    <span asp-validation-for="@Model.ReceiverCountry" class="text-danger"></span>
+                                </div>
+                            </div>
+                    </div>
+                   
+                    <div class="row justify-content-center">
+                        <div class="col-6">
+                            <button class="btn btn-primary col-6" type="submit" style="width:150px">
+                                Create
+                            </button>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </form>
+        }
+    </div>
+</div>
+<script>
+    let lastMyrValue = null; 
+
+    function convertmoney() {
+        const myr = document.getElementById("myr").value;
+        const npr = document.getElementById("npr");
+        const exchangeRate = @Model.ExchangeRate; 
+        console.log(myr);
+
+
+        if (myr !== lastMyrValue) {
+            npr.value = myr * exchangeRate;
+            lastMyrValue = myr; 
+        }
+    }
+
+</script>

@@ -1,0 +1,78 @@
+﻿@model List<Assignment.ViewModel.TrasactionVM>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Transaction Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Transaction Report</h2>
+    <p><strong>From:</strong> @ViewBag.FromDate &nbsp;&nbsp; <strong>To:</strong> @ViewBag.ToDate</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>S.N</th>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>Bank Name</th>
+                <th>Transfer Amount (MYR)</th>
+                <th>Exchange Rate</th>
+                <th>Payout Amount (NPR)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                int index = 1;
+                foreach (var data in Model)
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td>@data.SenderFirstName @data.SenderMiddleName @data.SenderLastName</td>
+                        <td>@data.ReceiverFirstName @data.ReceiverMiddleName @data.ReceiverLastName</td>
+                        <td>@data.BankName</td>
+                        <td>@(data.TransferAmountMYR.ToString("F2") ?? "0.00")</td>
+                        <td>@(data.ExchangeRate.ToString("F4") ?? "0.0000")</td>
+                        <td>@(data.PayoutAmountNPR.ToString("F2") ?? "0.00")</td>
+                    </tr>
+                    index++;
+                }
+            }
+            else
+            {
+                <tr><td colspan="7">No transactions found.</td></tr>
+            }
+        </tbody>
+    </table>
+
+    <script>
+        window.onload = function () { window.print(); }
+    </script>
+</body>
+</html>
